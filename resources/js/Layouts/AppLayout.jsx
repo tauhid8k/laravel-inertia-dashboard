@@ -1,6 +1,7 @@
 import { createContext, useLayoutEffect, useState } from "react";
 import Sidebar from "@/Components/Sidebar";
 import Header from "@/Components/Header";
+import BreadCrumbs from "@/Components/BreadCrumbs";
 
 // Sidebar Context
 export const SidebarContext = createContext({
@@ -49,7 +50,8 @@ const AppLayout = ({ children }) => {
                 <Sidebar />
                 <div className="w-full h-screen overflow-y-auto">
                     <Header />
-                    <main className="px-5 pt-5 pb-8">{children}</main>
+                    <BreadCrumbs />
+                    <main className="pb-8">{children}</main>
                 </div>
             </div>
         </SidebarContext.Provider>

@@ -14,7 +14,7 @@ const SidebarMenuItem = ({ icon, text, href, active, ...props }) => {
             )}
             {...props}
         >
-            {icon}
+            <span className="shrink-0">{icon}</span>
             <span>{text}</span>
         </Link>
     );

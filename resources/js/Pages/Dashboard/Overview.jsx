@@ -1,5 +1,5 @@
 const OverviewPage = () => {
-    return <div>Overview Page</div>;
+    return <div className="text-2xl">Overview Page</div>;
 };
 
 export default OverviewPage;
