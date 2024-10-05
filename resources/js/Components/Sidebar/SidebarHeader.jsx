@@ -1,21 +1,18 @@
 import { Link } from "@inertiajs/react";
+import { useSidebar } from "@/Providers/SidebarProvider";
 import { X } from "lucide-react";
-import { useContext } from "react";
-import { SidebarContext } from "@/Layouts/AppLayout";
 
 const SidebarHeader = () => {
-    const { setIsSidebarOpen } = useContext(SidebarContext);
+    const { isOpen, setIsOpen } = useSidebar();
 
     return (
-        <div className="h-[77px] shrink-0 flex justify-center items-center px-4 py-6">
-            <Link href="/" className="text-2xl font-bold">
-                <img src="/logo.svg" className="w-32" alt="" />
-            </Link>
+        <div className="h-16 shrink-0 flex justify-center items-center px-4 py-5 border-b border-blue-400">
+            <Link href="/">{/* <img src="/logo.svg" alt="" /> */}</Link>
             <button
-                onClick={() => setIsSidebarOpen(false)}
-                className="btn-icon lg:hidden"
+                onClick={() => setIsOpen(false)}
+                className="md:hidden size-10 flex items-center justify-center ml-auto rounded-md bg-blue-600 text-slate-50"
             >
-                <X />
+                <X className="icon" />
             </button>
         </div>
     );

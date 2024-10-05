@@ -6,10 +6,12 @@ import {
 } from "@/Components/Collapsible";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useSidebar } from "@/Providers/SidebarProvider";
 import { usePage } from "@inertiajs/react";
 
 const MenuCollapsible = ({ children, icon, text, basePath }) => {
     const { url } = usePage();
+    const { isOpen, isHovered } = useSidebar();
     const [open, setOpen] = useState(false);
     const activePath = url.startsWith(basePath);
 
@@ -21,25 +23,36 @@ const MenuCollapsible = ({ children, icon, text, basePath }) => {
     }, [activePath]);
 
     return (
-        <Collapsible open={open} onOpenChange={setOpen}>
+        <Collapsible
+            open={open && (isOpen || isHovered)}
+            onOpenChange={setOpen}
+        >
             <CollapsibleTrigger asChild>
                 <button
                     className={cn(
-                        "w-full flex justify-between items-center gap-x-2 py-2 px-4 focus:outline-none text-lg rounded-lg transition-colors",
+                        "w-full h-11 flex justify-between items-center py-2 px-3 overflow-hidden focus:outline-none text-lg rounded-lg transition-colors",
                         {
                             "bg-white text-slate-800 shadow-sm": activePath,
                             "text-slate-50 hover:bg-blue-600": !activePath,
                         }
                     )}
                 >
-                    <div className="flex items-center gap-2">
-                        {icon}
-                        <span>{text}</span>
+                    <div className="flex items-center gap-x-2">
+                        <span className="shrink-0">{icon}</span>
+                        <span
+                            className={cn("hidden", {
+                                block: isOpen || isHovered,
+                            })}
+                        >
+                            {text}
+                        </span>
                     </div>
                     <ChevronDown
-                        className={`icon transition ${
-                            open ? "rotate-180" : "rotate-0"
-                        }`}
+                        className={cn("hidden icon transition", {
+                            "rotate-180": open,
+                            "rotate-0": !open,
+                            block: isOpen || isHovered,
+                        })}
                     />
                 </button>
             </CollapsibleTrigger>

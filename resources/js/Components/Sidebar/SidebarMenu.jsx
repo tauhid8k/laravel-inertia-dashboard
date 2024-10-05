@@ -2,8 +2,11 @@ import { BadgeDollarSign, Banknote, LayoutGrid } from "lucide-react";
 import MenuCollapsible from "./MenuCollapsible";
 import MenuCollapsibleItem from "./MenuCollapsibleItem";
 import SidebarMenuItem from "./SidebarMenuItem";
+import { useSidebar } from "@/Providers/SidebarProvider";
 
 const SidebarMenu = () => {
+    const { handleHover } = useSidebar();
+
     const menuItems = [
         {
             text: "Dashboard",
@@ -93,7 +96,11 @@ const SidebarMenu = () => {
     ];
 
     return (
-        <nav className="grow flex flex-col gap-2 overflow-y-auto px-4 pb-4">
+        <nav
+            className="grow flex flex-col gap-2 overflow-y-auto overflow-x-hidden p-4"
+            onMouseEnter={() => handleHover(true)}
+            onMouseLeave={() => handleHover(false)}
+        >
             {menuItems.map((item, index) => {
                 if (item.children && item.children.length > 0) {
                     return (

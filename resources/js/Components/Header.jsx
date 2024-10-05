@@ -6,22 +6,22 @@ import {
     DropdownItems,
     DropdownTrigger,
 } from "./Dropdown";
-import { Fragment, useContext } from "react";
-import { SidebarContext } from "@/Layouts/AppLayout";
+import { Fragment } from "react";
+import { useSidebar } from "@/Providers/SidebarProvider";
 
 const Header = () => {
-    const { isSidebarOpen, setIsSidebarOpen } = useContext(SidebarContext);
+    const { isOpen, setIsOpen } = useSidebar();
 
     return (
-        <header className="h-16 sticky top-0 z-20 px-5 flex items-center bg-white rounded-xl border shadow-sm">
+        <header className="h-16 sticky top-0 z-20 px-5 flex items-center bg-white border-b">
             <div className="w-full flex items-center justify-between gap-4">
                 <button
-                    onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                    className="size-10 flex items-center justify-center text-slate-600 bg-slate-100 rounded-full"
+                    onClick={() => setIsOpen(!isOpen)}
+                    className="md:hidden size-10 flex items-center justify-center text-slate-600 bg-slate-100 rounded-full"
                 >
-                    {isSidebarOpen ? <X /> : <MenuIcon />}
+                    {isOpen ? <X /> : <MenuIcon />}
                 </button>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 ml-auto">
                     <Dropdown>
                         <DropdownTrigger className="flex items-center justify-between gap-x-2 py-1 ps-1 pe-3 bg-slate-100 rounded-full">
                             <img

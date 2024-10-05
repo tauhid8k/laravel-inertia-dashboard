@@ -1,27 +1,27 @@
+import SidebarFooter from "./SidebarFooter";
 import SidebarHeader from "./SidebarHeader";
 import SidebarMenu from "./SidebarMenu";
-import { useContext, useEffect } from "react";
-import { SidebarContext } from "@/Layouts/AppLayout";
+import { useSidebar } from "@/Providers/SidebarProvider";
+import { cn } from "@/lib/utils";
 
 const Sidebar = () => {
-    const { isSidebarMobile, isSidebarOpen, setIsSidebarOpen } =
-        useContext(SidebarContext);
+    const { isOpen, isHovered } = useSidebar();
 
     return (
-        <>
-            {/* Mobile Sidebar */}
-            {/* Yet to implement */}
-
-            {/* Desktop Sidebar */}
-            <aside
-                className={`hidden lg:flex flex-col w-[300px] shrink-0 rounded-xl shadow-sm border bg-gradient-to-b from-blue-500 to-indigo-800 transition-[margin] duration-300 ${
-                    isSidebarOpen ? "ml-0" : "-ml-[316px]"
-                }`}
-            >
-                <SidebarHeader />
-                <SidebarMenu />
-            </aside>
-        </>
+        <aside
+            className={cn(
+                "fixed top-0 left-0 z-40 md:static h-full flex flex-col shrink-0 border-r bg-gradient-to-b from-blue-500 to-blue-600 transition-[transform,width]",
+                {
+                    "translate-x-0 w-72": isOpen || isHovered,
+                    "-translate-x-full w-72 md:w-20 md:translate-x-0":
+                        !isOpen && !isHovered,
+                }
+            )}
+        >
+            <SidebarHeader />
+            <SidebarMenu />
+            <SidebarFooter />
+        </aside>
     );
 };
 

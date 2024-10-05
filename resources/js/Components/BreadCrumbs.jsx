@@ -7,7 +7,7 @@ const BreadCrumbs = () => {
     let generatedLink;
 
     return (
-        <div className="py-5 flex">
+        <div className="p-5 flex">
             {urlSegments.map((segment, index) => {
                 generatedLink += `/${segment}`;
 
