@@ -1,8 +1,9 @@
 import { BadgeDollarSign, Banknote, LayoutGrid } from "lucide-react";
+import { useSidebar } from "@/Providers/SidebarProvider";
 import MenuCollapsible from "./MenuCollapsible";
 import MenuCollapsibleItem from "./MenuCollapsibleItem";
 import SidebarMenuItem from "./SidebarMenuItem";
-import { useSidebar } from "@/Providers/SidebarProvider";
+import * as ScrollArea from "@radix-ui/react-scroll-area";
 
 const SidebarMenu = () => {
     const { handleHover } = useSidebar();
@@ -96,43 +97,51 @@ const SidebarMenu = () => {
     ];
 
     return (
-        <nav
-            className="grow flex flex-col gap-2 overflow-y-auto overflow-x-hidden p-4"
+        <ScrollArea.Root
+            className="grow flex flex-col overflow-x-hidden"
             onMouseEnter={() => handleHover(true)}
             onMouseLeave={() => handleHover(false)}
+            type="always"
         >
-            {menuItems.map((item, index) => {
-                if (item.children && item.children.length > 0) {
-                    return (
-                        <MenuCollapsible
-                            key={index}
-                            text={item.text}
-                            basePath={item.basePath}
-                            icon={item.icon}
-                        >
-                            {item.children.map((child, childIndex) => (
-                                <MenuCollapsibleItem
-                                    key={childIndex}
-                                    text={child.text}
-                                    href={child.href}
-                                    active={child.active}
+            <ScrollArea.Viewport>
+                <nav className="space-y-2 p-4">
+                    {menuItems.map((item, index) => {
+                        if (item.children && item.children.length > 0) {
+                            return (
+                                <MenuCollapsible
+                                    key={index}
+                                    text={item.text}
+                                    basePath={item.basePath}
+                                    icon={item.icon}
+                                >
+                                    {item.children.map((child, childIndex) => (
+                                        <MenuCollapsibleItem
+                                            key={childIndex}
+                                            text={child.text}
+                                            href={child.href}
+                                            active={child.active}
+                                        />
+                                    ))}
+                                </MenuCollapsible>
+                            );
+                        } else if (item.href) {
+                            return (
+                                <SidebarMenuItem
+                                    key={index}
+                                    href={item.href}
+                                    text={item.text}
+                                    icon={item.icon}
+                                    active={item.active}
                                 />
-                            ))}
-                        </MenuCollapsible>
-                    );
-                } else if (item.href) {
-                    return (
-                        <SidebarMenuItem
-                            key={index}
-                            href={item.href}
-                            text={item.text}
-                            icon={item.icon}
-                            active={item.active}
-                        />
-                    );
-                }
-            })}
-        </nav>
+                            );
+                        }
+                    })}
+                </nav>
+            </ScrollArea.Viewport>
+            <ScrollArea.Scrollbar className="h-full w-1.5">
+                <ScrollArea.Thumb className="relative flex-1 rounded-full bg-blue-100/70 hover:bg-blue-100/80" />
+            </ScrollArea.Scrollbar>
+        </ScrollArea.Root>
     );
 };
 

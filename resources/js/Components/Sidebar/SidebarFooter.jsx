@@ -6,7 +6,7 @@ const SidebarFooter = () => {
     const { isOpen, isHovered, setIsOpen } = useSidebar();
 
     return (
-        <div className="h-16 flex justify-center items-center px-4 py-5 border-t border-blue-500 overflow-hidden">
+        <div className="h-16 shrink-0 flex justify-center items-center px-4 py-5 border-t border-blue-500 overflow-hidden">
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="hidden md:flex items-center gap-3"
