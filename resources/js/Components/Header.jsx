@@ -17,7 +17,7 @@ const Header = () => {
             <div className="w-full flex items-center justify-between gap-4">
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className="md:hidden size-10 flex items-center justify-center text-slate-600 bg-slate-100 rounded-full"
+                    className="size-10 flex items-center justify-center text-slate-600 bg-slate-100 rounded-full"
                 >
                     {isOpen ? <X /> : <MenuIcon />}
                 </button>

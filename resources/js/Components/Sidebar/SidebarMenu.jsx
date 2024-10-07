@@ -1,5 +1,6 @@
 import { BadgeDollarSign, Banknote, LayoutGrid } from "lucide-react";
 import { useSidebar } from "@/Providers/SidebarProvider";
+import { useRef, useEffect } from "react";
 import MenuCollapsible from "./MenuCollapsible";
 import MenuCollapsibleItem from "./MenuCollapsibleItem";
 import SidebarMenuItem from "./SidebarMenuItem";
@@ -7,8 +8,124 @@ import * as ScrollArea from "@radix-ui/react-scroll-area";
 
 const SidebarMenu = () => {
     const { handleHover } = useSidebar();
+    const scrollViewportRef = useRef(null);
+
+    const scrollToActive = () => {
+        const scrollView = scrollViewportRef.current;
+        if (!scrollView) return;
+
+        // Scroll to active item
+        const activeItem = scrollView.querySelector(".active");
+        if (!activeItem) return;
+
+        const activeItemOffsetTop = activeItem.getBoundingClientRect().top;
+        const scrollViewportOffsetTop = scrollView.getBoundingClientRect().top;
+
+        const offset = activeItemOffsetTop - scrollViewportOffsetTop;
+
+        scrollView.scrollTo({
+            top: scrollView.scrollTop + offset - scrollView.clientHeight / 2,
+            behavior: "smooth",
+        });
+    };
 
     const menuItems = [
+        {
+            text: "Dashboard",
+            href: route("dashboard"),
+            icon: <LayoutGrid className="icon" />,
+            active: route().current("dashboard"),
+        },
+        {
+            text: "Dashboard",
+            href: route("dashboard"),
+            icon: <LayoutGrid className="icon" />,
+            active: route().current("dashboard"),
+        },
+        {
+            text: "Dashboard",
+            href: route("dashboard"),
+            icon: <LayoutGrid className="icon" />,
+            active: route().current("dashboard"),
+        },
+        {
+            text: "Dashboard",
+            href: route("dashboard"),
+            icon: <LayoutGrid className="icon" />,
+            active: route().current("dashboard"),
+        },
+        {
+            text: "Dashboard",
+            href: route("dashboard"),
+            icon: <LayoutGrid className="icon" />,
+            active: route().current("dashboard"),
+        },
+        {
+            text: "Dashboard",
+            href: route("dashboard"),
+            icon: <LayoutGrid className="icon" />,
+            active: route().current("dashboard"),
+        },
+        {
+            text: "Dashboard",
+            href: route("dashboard"),
+            icon: <LayoutGrid className="icon" />,
+            active: route().current("dashboard"),
+        },
+        {
+            text: "Dashboard",
+            href: route("dashboard"),
+            icon: <LayoutGrid className="icon" />,
+            active: route().current("dashboard"),
+        },
+        {
+            text: "Dashboard",
+            href: route("dashboard"),
+            icon: <LayoutGrid className="icon" />,
+            active: route().current("dashboard"),
+        },
+        {
+            text: "Dashboard",
+            href: route("dashboard"),
+            icon: <LayoutGrid className="icon" />,
+            active: route().current("dashboard"),
+        },
+        {
+            text: "Dashboard",
+            href: route("dashboard"),
+            icon: <LayoutGrid className="icon" />,
+            active: route().current("dashboard"),
+        },
+        {
+            text: "Dashboard",
+            href: route("dashboard"),
+            icon: <LayoutGrid className="icon" />,
+            active: route().current("dashboard"),
+        },
+        {
+            text: "Dashboard",
+            href: route("dashboard"),
+            icon: <LayoutGrid className="icon" />,
+            active: route().current("dashboard"),
+        },
+        {
+            text: "Dashboard",
+            href: route("dashboard"),
+            icon: <LayoutGrid className="icon" />,
+            active: route().current("dashboard"),
+        },
+        {
+            text: "Dashboard",
+            href: route("dashboard"),
+            icon: <LayoutGrid className="icon" />,
+            active: route().current("dashboard"),
+        },
+        {
+            text: "Dashboard",
+            href: route("dashboard"),
+            icon: <LayoutGrid className="icon" />,
+            active: route().current("dashboard"),
+        },
         {
             text: "Dashboard",
             href: route("dashboard"),
@@ -103,7 +220,7 @@ const SidebarMenu = () => {
             onMouseLeave={() => handleHover(false)}
             type="always"
         >
-            <ScrollArea.Viewport>
+            <ScrollArea.Viewport ref={scrollViewportRef}>
                 <nav className="space-y-2 p-4">
                     {menuItems.map((item, index) => {
                         if (item.children && item.children.length > 0) {
@@ -113,6 +230,7 @@ const SidebarMenu = () => {
                                     text={item.text}
                                     basePath={item.basePath}
                                     icon={item.icon}
+                                    onTransitionEnd={scrollToActive}
                                 >
                                     {item.children.map((child, childIndex) => (
                                         <MenuCollapsibleItem

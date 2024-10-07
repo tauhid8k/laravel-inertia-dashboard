@@ -8,12 +8,15 @@ export const useSidebar = () => {
 
 const SidebarProvider = ({ children }) => {
     const [isOpen, setIsOpen] = useState(window.innerWidth > 1024);
+    const [isCollapsed, setIsCollapsed] = useState(true);
     const [isHovered, setIsHovered] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
 
     const handleHover = (value) => {
         if (window.innerWidth >= 1024) {
-            setIsHovered(value);
+            if (!isCollapsed) {
+                setIsHovered(value);
+            }
         }
     };
 
@@ -42,7 +45,15 @@ const SidebarProvider = ({ children }) => {
 
     return (
         <SidebarContext.Provider
-            value={{ isOpen, setIsOpen, isMobile, isHovered, handleHover }}
+            value={{
+                isOpen,
+                setIsOpen,
+                isCollapsed,
+                setIsCollapsed,
+                isMobile,
+                isHovered,
+                handleHover,
+            }}
         >
             {children}
         </SidebarContext.Provider>
