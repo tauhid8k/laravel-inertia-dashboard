@@ -7,37 +7,30 @@ export const useSidebar = () => {
 };
 
 const SidebarProvider = ({ children }) => {
-    const [isOpen, setIsOpen] = useState(window.innerWidth > 1024);
-    const [isCollapsed, setIsCollapsed] = useState(true);
-    const [isHovered, setIsHovered] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
-
-    const handleHover = (value) => {
-        if (window.innerWidth >= 1024) {
-            if (!isCollapsed) {
-                setIsHovered(value);
-            }
-        }
-    };
+    const [isExpanded, setIsExpanded] = useState(window.innerWidth > 1024);
+    const [isCollapsed, setIsCollapsed] = useState(window.innerWidth <= 1024);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
     const handleWindowResize = () => {
-        // Specific only for mobile
         if (window.innerWidth <= 768) {
             setIsMobile(true);
-        }
-
-        // Sidebar open or close on window size
-        if (window.innerWidth <= 1024) {
-            setIsOpen(false);
+            setIsExpanded(false);
+            setIsCollapsed(false);
         } else {
-            setIsOpen(true);
+            setIsMobile(false);
+            setIsCollapsed(window.innerWidth <= 1024);
+            setIsExpanded(window.innerWidth > 1024);
         }
     };
 
     useLayoutEffect(() => {
+        // Add resize event listener
         window.addEventListener("resize", handleWindowResize);
 
-        // Cleanup event listener on unmount
+        // Initial call to ensure the correct state based on the current window size
+        handleWindowResize();
+
+        // Cleanup event listener on component unmount
         return () => {
             window.removeEventListener("resize", handleWindowResize);
         };
@@ -46,13 +39,11 @@ const SidebarProvider = ({ children }) => {
     return (
         <SidebarContext.Provider
             value={{
-                isOpen,
-                setIsOpen,
+                isExpanded,
+                setIsExpanded,
                 isCollapsed,
                 setIsCollapsed,
                 isMobile,
-                isHovered,
-                handleHover,
             }}
         >
             {children}

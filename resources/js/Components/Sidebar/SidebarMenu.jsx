@@ -1,33 +1,55 @@
-import { BadgeDollarSign, Banknote, LayoutGrid } from "lucide-react";
-import { useSidebar } from "@/Providers/SidebarProvider";
+import * as ScrollArea from "@radix-ui/react-scroll-area";
+import { BadgeDollarSign, Banknote, LayoutGrid, Settings } from "lucide-react";
 import { useRef, useEffect } from "react";
 import MenuCollapsible from "./MenuCollapsible";
 import MenuCollapsibleItem from "./MenuCollapsibleItem";
 import SidebarMenuItem from "./SidebarMenuItem";
-import * as ScrollArea from "@radix-ui/react-scroll-area";
 
 const SidebarMenu = () => {
-    const { handleHover } = useSidebar();
-    const scrollViewportRef = useRef(null);
+    const scrollViewRef = useRef(null);
 
-    const scrollToActive = () => {
-        const scrollView = scrollViewportRef.current;
+    useEffect(() => {
+        const scrollView = scrollViewRef.current;
         if (!scrollView) return;
 
-        // Scroll to active item
-        const activeItem = scrollView.querySelector(".active");
-        if (!activeItem) return;
+        // Scroll to the active item in the view
+        const scrollToActiveItem = () => {
+            const activeItem = scrollView.querySelector(".active");
+            if (!activeItem) return;
 
-        const activeItemOffsetTop = activeItem.getBoundingClientRect().top;
-        const scrollViewportOffsetTop = scrollView.getBoundingClientRect().top;
+            activeItem.scrollIntoView({
+                behavior: "smooth",
+                block: "center", // Center the active item in the scroll view
+            });
+        };
 
-        const offset = activeItemOffsetTop - scrollViewportOffsetTop;
+        // Check if there is an active collapsible section
+        const activeCollapsible = scrollView.querySelector(
+            ".active-collapsible"
+        );
 
-        scrollView.scrollTo({
-            top: scrollView.scrollTop + offset - scrollView.clientHeight / 2,
-            behavior: "smooth",
-        });
-    };
+        if (activeCollapsible) {
+            // If a collapsible section is active, wait for its content transition to finish
+            const collapsibleContent = activeCollapsible.querySelector(
+                ".collapsible-content"
+            );
+
+            if (collapsibleContent) {
+                collapsibleContent.addEventListener(
+                    "transitionend",
+                    (e) => {
+                        if (e.propertyName === "max-height") {
+                            scrollToActiveItem(); // Scroll after the transition completes
+                        }
+                    },
+                    { once: true } // Remove listener after it triggers once
+                );
+            }
+        } else {
+            // If no collapsible section is active, scroll to the single active item
+            scrollToActiveItem();
+        }
+    }, [scrollViewRef.current]);
 
     const menuItems = [
         {
@@ -211,16 +233,20 @@ const SidebarMenu = () => {
                 },
             ],
         },
+        {
+            text: "Settings",
+            href: route("dashboard.settings"),
+            icon: <Settings className="icon" />,
+            active: route().current("dashboard.settings"),
+        },
     ];
 
     return (
         <ScrollArea.Root
             className="grow flex flex-col overflow-x-hidden"
-            onMouseEnter={() => handleHover(true)}
-            onMouseLeave={() => handleHover(false)}
             type="always"
         >
-            <ScrollArea.Viewport ref={scrollViewportRef}>
+            <ScrollArea.Viewport ref={scrollViewRef}>
                 <nav className="space-y-2 p-4">
                     {menuItems.map((item, index) => {
                         if (item.children && item.children.length > 0) {
@@ -230,7 +256,6 @@ const SidebarMenu = () => {
                                     text={item.text}
                                     basePath={item.basePath}
                                     icon={item.icon}
-                                    onTransitionEnd={scrollToActive}
                                 >
                                     {item.children.map((child, childIndex) => (
                                         <MenuCollapsibleItem

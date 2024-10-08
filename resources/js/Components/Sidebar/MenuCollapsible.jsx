@@ -4,69 +4,32 @@ import { cn } from "@/lib/utils";
 import { useSidebar } from "@/Providers/SidebarProvider";
 import { usePage } from "@inertiajs/react";
 
-const MenuCollapsible = ({
-    children,
-    icon,
-    text,
-    basePath,
-    onTransitionEnd,
-}) => {
+const MenuCollapsible = ({ children, icon, text, basePath }) => {
     const { url } = usePage();
-    const { isOpen, isHovered } = useSidebar();
+    const { isExpanded } = useSidebar();
     const [open, setOpen] = useState(false);
     const [height, setHeight] = useState("0px");
     const contentRef = useRef(null);
     const activePath = url.startsWith(basePath);
 
-    // Keep active collapse menu open on reload
+    // Keep active collapse menu expanded on reload
     useEffect(() => {
         if (activePath) {
             setOpen(true);
         }
     }, [activePath]);
 
-    // Collapse / Expand
+    // Collapse / Expand content
     useEffect(() => {
-        if (open) {
+        if (open && isExpanded) {
             setHeight(`${contentRef.current.scrollHeight}px`);
         } else {
             setHeight("0px");
         }
-    }, [open]);
-
-    // Track expanding transition end
-    useEffect(() => {
-        const content = contentRef.current;
-
-        // Handle transition end event
-        const handleTransitionEnd = (e) => {
-            // Only trigger if the max-height transition ended and the menu is open and active
-            if (
-                e.propertyName === "max-height" &&
-                open &&
-                activePath &&
-                onTransitionEnd
-            ) {
-                onTransitionEnd(); // Notify parent component when transition ends
-            }
-        };
-
-        if (content) {
-            content.addEventListener("transitionend", handleTransitionEnd);
-        }
-
-        return () => {
-            if (content) {
-                content.removeEventListener(
-                    "transitionend",
-                    handleTransitionEnd
-                );
-            }
-        };
-    }, [open, activePath, onTransitionEnd]);
+    }, [open, isExpanded]);
 
     return (
-        <div>
+        <div className={open ? "active-collapsible" : ""}>
             <button
                 onClick={() => setOpen(!open)}
                 className={cn(
@@ -81,7 +44,7 @@ const MenuCollapsible = ({
                     <span className="shrink-0">{icon}</span>
                     <span
                         className={cn("hidden", {
-                            block: isOpen || isHovered,
+                            block: isExpanded,
                         })}
                     >
                         {text}
@@ -91,14 +54,14 @@ const MenuCollapsible = ({
                     className={cn("hidden icon transition", {
                         "rotate-180": open,
                         "rotate-0": !open,
-                        block: isOpen || isHovered,
+                        block: isExpanded,
                     })}
                 />
             </button>
             <div
                 ref={contentRef}
                 style={{ maxHeight: height }}
-                className={`overflow-hidden transition-all`}
+                className="collapsible-content overflow-hidden transition-all"
             >
                 <div className="ml-[1.6rem] pr-0.5 border-l border-blue-400">
                     {children}
