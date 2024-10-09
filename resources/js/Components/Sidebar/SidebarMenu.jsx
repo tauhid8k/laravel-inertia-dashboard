@@ -1,5 +1,13 @@
 import * as ScrollArea from "@radix-ui/react-scroll-area";
-import { BadgeDollarSign, Banknote, LayoutGrid, Settings } from "lucide-react";
+import {
+    BadgeDollarSign,
+    Banknote,
+    Building2,
+    Earth,
+    LayoutGrid,
+    Settings,
+    UsersRound,
+} from "lucide-react";
 import { useRef, useEffect } from "react";
 import MenuCollapsible from "./MenuCollapsible";
 import MenuCollapsibleItem from "./MenuCollapsibleItem";
@@ -52,102 +60,6 @@ const SidebarMenu = () => {
     }, [scrollViewRef.current]);
 
     const menuItems = [
-        {
-            text: "Dashboard",
-            href: route("dashboard"),
-            icon: <LayoutGrid className="icon" />,
-            active: route().current("dashboard"),
-        },
-        {
-            text: "Dashboard",
-            href: route("dashboard"),
-            icon: <LayoutGrid className="icon" />,
-            active: route().current("dashboard"),
-        },
-        {
-            text: "Dashboard",
-            href: route("dashboard"),
-            icon: <LayoutGrid className="icon" />,
-            active: route().current("dashboard"),
-        },
-        {
-            text: "Dashboard",
-            href: route("dashboard"),
-            icon: <LayoutGrid className="icon" />,
-            active: route().current("dashboard"),
-        },
-        {
-            text: "Dashboard",
-            href: route("dashboard"),
-            icon: <LayoutGrid className="icon" />,
-            active: route().current("dashboard"),
-        },
-        {
-            text: "Dashboard",
-            href: route("dashboard"),
-            icon: <LayoutGrid className="icon" />,
-            active: route().current("dashboard"),
-        },
-        {
-            text: "Dashboard",
-            href: route("dashboard"),
-            icon: <LayoutGrid className="icon" />,
-            active: route().current("dashboard"),
-        },
-        {
-            text: "Dashboard",
-            href: route("dashboard"),
-            icon: <LayoutGrid className="icon" />,
-            active: route().current("dashboard"),
-        },
-        {
-            text: "Dashboard",
-            href: route("dashboard"),
-            icon: <LayoutGrid className="icon" />,
-            active: route().current("dashboard"),
-        },
-        {
-            text: "Dashboard",
-            href: route("dashboard"),
-            icon: <LayoutGrid className="icon" />,
-            active: route().current("dashboard"),
-        },
-        {
-            text: "Dashboard",
-            href: route("dashboard"),
-            icon: <LayoutGrid className="icon" />,
-            active: route().current("dashboard"),
-        },
-        {
-            text: "Dashboard",
-            href: route("dashboard"),
-            icon: <LayoutGrid className="icon" />,
-            active: route().current("dashboard"),
-        },
-        {
-            text: "Dashboard",
-            href: route("dashboard"),
-            icon: <LayoutGrid className="icon" />,
-            active: route().current("dashboard"),
-        },
-        {
-            text: "Dashboard",
-            href: route("dashboard"),
-            icon: <LayoutGrid className="icon" />,
-            active: route().current("dashboard"),
-        },
-        {
-            text: "Dashboard",
-            href: route("dashboard"),
-            icon: <LayoutGrid className="icon" />,
-            active: route().current("dashboard"),
-        },
-        {
-            text: "Dashboard",
-            href: route("dashboard"),
-            icon: <LayoutGrid className="icon" />,
-            active: route().current("dashboard"),
-        },
         {
             text: "Dashboard",
             href: route("dashboard"),
@@ -230,6 +142,77 @@ const SidebarMenu = () => {
                     text: "Resources",
                     href: route("sales.resources"),
                     active: route().current("sales.resources"),
+                },
+            ],
+        },
+        {
+            text: "Clients",
+            basePath: "/dashboard/clients",
+            icon: <UsersRound className="icon" />,
+            children: [
+                {
+                    text: "Dashboard",
+                    href: route("clients.index"),
+                    active: route().current("clients.index"),
+                },
+                {
+                    text: "Bulk Manager",
+                    href: route("clients.bulkManager"),
+                    active: route().current("clients.bulkManager"),
+                },
+                {
+                    text: "Clients Manager",
+                    href: route("clients.manager"),
+                    active: route().current("clients.manager"),
+                },
+                {
+                    text: "Activities",
+                    href: route("clients.activities"),
+                    active: route().current("clients.activities"),
+                },
+                {
+                    text: "Notifications",
+                    href: route("clients.notifications"),
+                    active: route().current("clients.notifications"),
+                },
+                {
+                    text: "Impersonator",
+                    href: route("clients.impersonator"),
+                    active: route().current("clients.impersonator"),
+                },
+            ],
+        },
+        {
+            text: "Company",
+            basePath: "/dashboard/company",
+            icon: <Building2 className="icon" />,
+            children: [
+                {
+                    text: "Users",
+                    href: route("company.users"),
+                    active: route().current("company.users"),
+                },
+                {
+                    text: "Logs",
+                    href: route("company.logs"),
+                    active: route().current("company.logs"),
+                },
+            ],
+        },
+        {
+            text: "Comms",
+            basePath: "/dashboard/comms",
+            icon: <Earth className="icon" />,
+            children: [
+                {
+                    text: "Message Center",
+                    href: route("comms.messageCenter"),
+                    active: route().current("comms.messageCenter"),
+                },
+                {
+                    text: "Calender",
+                    href: route("comms.calender"),
+                    active: route().current("comms.calender"),
                 },
             ],
         },

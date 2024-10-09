@@ -61,7 +61,7 @@ const MenuCollapsible = ({ children, icon, text, basePath }) => {
             <div
                 ref={contentRef}
                 style={{ maxHeight: height }}
-                className="collapsible-content overflow-hidden transition-all"
+                className="collapsible-content overflow-hidden transition-all duration-300"
             >
                 <div className="ml-[1.6rem] pr-0.5 border-l border-blue-400">
                     {children}

@@ -25,6 +25,22 @@ Route::prefix('dashboard')->group(function () {
     Route::get('/sales/intakes', fn() => inertia('Dashboard/Sales/Intakes'))->name('sales.intakes');
     Route::get('/sales/resources', fn() => inertia('Dashboard/Sales/Resources'))->name('sales.resources');
 
+    // Clients
+    Route::get('/clients', fn() => inertia('Dashboard/Clients/Index'))->name('clients.index');
+    Route::get('/clients/bulk-manager', fn() => inertia('Dashboard/Clients/BulkManager'))->name('clients.bulkManager');
+    Route::get('/clients/clients-manager', fn() => inertia('Dashboard/Clients/ClientsManager'))->name('clients.manager');
+    Route::get('/clients/activities', fn() => inertia('Dashboard/Clients/Activities'))->name('clients.activities');
+    Route::get('/clients/notifications', fn() => inertia('Dashboard/Clients/Notifications'))->name('clients.notifications');
+    Route::get('/clients/impersonator', fn() => inertia('Dashboard/Clients/Impersonator'))->name('clients.impersonator');
+
+    // Company
+    Route::get('/company/users', fn() => inertia('Dashboard/Company/Users'))->name('company.users');
+    Route::get('/company/logs', fn() => inertia('Dashboard/Company/Logs'))->name('company.logs');
+
+    // Comms
+    Route::get('/comms/message-center', fn() => inertia('Dashboard/Comms/MessageCenter'))->name('comms.messageCenter');
+    Route::get('/comms/calender', fn() => inertia('Dashboard/Comms/Calender'))->name('comms.calender');
+
     // Settings
     Route::get('/settings', fn() => inertia('Dashboard/Settings/Index'))->name('dashboard.settings');
 });
