@@ -11,7 +11,7 @@ const AppLayout = ({ children }) => {
                 <div className="w-full h-screen overflow-y-auto">
                     <Header />
                     <BreadCrumbs />
-                    <main className="p-5">{children}</main>
+                    <main className="px-5 pb-5">{children}</main>
                 </div>
             </div>
         </SidebarProvider>

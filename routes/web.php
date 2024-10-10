@@ -34,7 +34,8 @@ Route::prefix('dashboard')->group(function () {
     Route::get('/clients/impersonator', fn() => inertia('Dashboard/Clients/Impersonator'))->name('clients.impersonator');
 
     // Company
-    Route::get('/company/users', fn() => inertia('Dashboard/Company/Users'))->name('company.users');
+    Route::get('/company/users', fn() => inertia('Dashboard/Company/Users/Index'))->name('company.users');
+    Route::get('/company/users/create', fn() => inertia('Dashboard/Company/Users/Create'))->name('company.users.create');
     Route::get('/company/logs', fn() => inertia('Dashboard/Company/Logs'))->name('company.logs');
 
     // Comms
