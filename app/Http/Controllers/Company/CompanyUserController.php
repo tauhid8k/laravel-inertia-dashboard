@@ -1,39 +1,39 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class AdminUserController extends Controller
+class CompanyUserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return inertia('Dashboard/Company/Users/Index');
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(StoreUserRequest $request)
+    public function create()
     {
-        $user = User::create($request->validated());
-        $user->assignRole($request->input('role'));
-
-        return redirect()->route('company.users');
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        //
+        $user = User::create($request->validated());
+        $user->assignRole($request->input('role'));
+
+        return redirect()->route('company.users');
     }
 
     /**
