@@ -12,6 +12,7 @@ import {
 import { Label } from "@/Components/Form/Label";
 import { useState } from "react";
 import { Pencil, Trash, UserRound } from "lucide-react";
+import * as RadioGroup from "@radix-ui/react-radio-group";
 import { cn } from "@/lib/utils";
 
 const CompanyCreateUserPage = () => {
@@ -92,7 +93,7 @@ const CompanyCreateUserPage = () => {
                         skype: yup.string().optional(),
                         color_profile: yup
                             .string()
-                            .required("Must select preferred color"),
+                            .required("Preferred color is required"),
                     })}
                     onSubmit={(values, { setSubmitting }) => {
                         return new Promise((resolve) => {
@@ -483,56 +484,50 @@ const CompanyCreateUserPage = () => {
                                     )}
                                 </FastField>
                                 <FastField name="color_profile">
-                                    {({ field }) => (
-                                        <div className="space-y-1.5">
+                                    {({ field, form }) => (
+                                        <div className="space-y-1.5 col-span-3">
                                             <Label>Color Profile</Label>
-                                            <div className="flex gap-4">
-                                                <label className="inline-block size-10 bg-blue-500 shrink-0 ring-1 ring-offset-2 rounded-full">
-                                                    <input
-                                                        type="radio"
-                                                        placeholder="Birth Date"
-                                                        className="appearance-none"
-                                                    />
-                                                </label>
-                                                <label className="inline-block size-10 bg-red-500 shrink-0 ring-1 ring-offset-2 rounded-full">
-                                                    <input
-                                                        type="radio"
-                                                        placeholder="Birth Date"
-                                                        className="appearance-none"
-                                                    />
-                                                </label>
-                                                <label className="inline-block size-10 bg-yellow-500 shrink-0 ring-1 ring-offset-2 rounded-full">
-                                                    <input
-                                                        type="radio"
-                                                        placeholder="Birth Date"
-                                                        className="appearance-none"
-                                                    />
-                                                </label>
-                                                <label className="inline-block size-10 bg-cyan-500 shrink-0 ring-1 ring-offset-2 rounded-full">
-                                                    <input
-                                                        type="radio"
-                                                        placeholder="Birth Date"
-                                                        className="appearance-none"
-                                                    />
-                                                </label>
-                                                <label className="inline-block size-10 bg-emerald-500 shrink-0 ring-1 ring-offset-2 rounded-full">
-                                                    <input
-                                                        type="radio"
-                                                        placeholder="Birth Date"
-                                                        className="appearance-none"
-                                                    />
-                                                </label>
-                                                <label className="inline-block size-10 bg-teal-500 shrink-0 ring-1 ring-offset-2 rounded-full">
-                                                    <input
-                                                        type="radio"
-                                                        placeholder="Birth Date"
-                                                        className="appearance-none"
-                                                    />
-                                                </label>
-                                            </div>
+                                            <RadioGroup.Root
+                                                onValueChange={(value) =>
+                                                    form.setFieldValue(
+                                                        field.name,
+                                                        value
+                                                    )
+                                                }
+                                                className="relative flex gap-3 items-center"
+                                            >
+                                                <RadioGroup.Item
+                                                    value="black"
+                                                    className="aspect-square size-9 rounded-full ring-2 ring-transparent ring-offset-2 bg-black data-[state=checked]:ring-black"
+                                                />
+                                                <RadioGroup.Item
+                                                    value="orange"
+                                                    className="aspect-square size-9 rounded-full ring-2 ring-transparent ring-offset-2 bg-orange-500 data-[state=checked]:ring-orange-500"
+                                                />
+                                                <RadioGroup.Item
+                                                    value="blue"
+                                                    className="aspect-square size-9 rounded-full ring-2 ring-transparent ring-offset-2 bg-blue-500 data-[state=checked]:ring-blue-500"
+                                                />
+                                                <RadioGroup.Item
+                                                    value="emerald"
+                                                    className="aspect-square size-9 rounded-full ring-2 ring-transparent ring-offset-2 bg-emerald-500 data-[state=checked]:ring-emerald-500"
+                                                />
+                                                <RadioGroup.Item
+                                                    value="cyan"
+                                                    className="aspect-square size-9 rounded-full ring-2 ring-transparent ring-offset-2 bg-cyan-500 data-[state=checked]:ring-cyan-500"
+                                                />
+                                                <RadioGroup.Item
+                                                    value="yellow"
+                                                    className="aspect-square size-9 rounded-full ring-2 ring-transparent ring-offset-2 bg-yellow-500 data-[state=checked]:ring-yellow-500"
+                                                />
+                                                <RadioGroup.Item
+                                                    value="violet"
+                                                    className="aspect-square size-9 rounded-full ring-2 ring-transparent ring-offset-2 bg-violet-500 data-[state=checked]:ring-violet-500"
+                                                />
+                                            </RadioGroup.Root>
                                             <ErrorMessage
                                                 component="p"
-                                                name="birthday"
+                                                name="color_profile"
                                                 className="block text-sm text-red-500"
                                             />
                                         </div>
