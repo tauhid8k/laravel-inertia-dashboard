@@ -12,7 +12,7 @@ const SidebarMenuItem = ({ icon, text, href, active, ...props }) => {
                 "w-full h-11 flex items-center gap-x-2 py-2 px-3 focus:outline-none text-lg rounded-lg transition-colors",
                 {
                     "bg-white text-slate-800 shadow-sm active": active,
-                    "text-slate-50 hover:bg-blue-600": !active,
+                    "text-slate-50 hover:bg-primary-600": !active,
                 }
             )}
             {...props}

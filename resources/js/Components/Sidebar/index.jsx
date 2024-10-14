@@ -19,7 +19,7 @@ const Sidebar = () => {
         <>
             <aside
                 className={cn(
-                    "fixed top-0 left-0 z-40 md:static h-full flex flex-col shrink-0 border-r bg-gradient-to-b from-blue-500 to-blue-600 transition-[transform,width] duration-200",
+                    "fixed top-0 left-0 z-40 md:static h-full flex flex-col shrink-0 border-r bg-gradient-to-b from-primary-500 to-primary-600 transition-[transform,width] duration-200",
                     {
                         // Mobile: show/hide the sidebar based on isExpanded
                         "translate-x-0 w-72": isExpanded && isMobile,

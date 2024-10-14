@@ -14,9 +14,11 @@ import { useState } from "react";
 import { Pencil, Trash, UserRound } from "lucide-react";
 import * as RadioGroup from "@radix-ui/react-radio-group";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/Providers/ThemeProvider";
 
 const CompanyCreateUserPage = () => {
     const [preview, setPreview] = useState(null);
+    const { theme, handleThemeChange } = useTheme();
 
     return (
         <div className="rounded-lg bg-white border">
@@ -45,7 +47,7 @@ const CompanyCreateUserPage = () => {
                         gender: "",
                         birthday: "",
                         skype: "",
-                        color_profile: "",
+                        color_profile: "ocean",
                     }}
                     validationSchema={yup.object({
                         profile_img: yup.mixed().nullable(),
@@ -114,8 +116,8 @@ const CompanyCreateUserPage = () => {
                                 <Field name="profile_img">
                                     {({ field, form }) => (
                                         <div className="space-y-1.5 col-span-3">
-                                            <div className="flex flex-col items-center mx-auto gap-3 relative w-fit select-none">
-                                                <Label className="flex items-center justify-center size-36 bg-slate-100 rounded-full overflow-hidden border group ring-2 ring-offset-2">
+                                            <div className="flex flex-col items-center mx-auto gap-3 relative w-fit select-none py-4">
+                                                <Label className="flex items-center justify-center size-36 bg-slate-100 rounded-full overflow-hidden border group ring-2 ring-primary-500 ring-offset-2">
                                                     <Input
                                                         type="file"
                                                         accept="image/*"
@@ -167,7 +169,7 @@ const CompanyCreateUserPage = () => {
                                                         {
                                                             "bg-red-500":
                                                                 preview,
-                                                            "bg-blue-400 pointer-events-none":
+                                                            "bg-primary-400 pointer-events-none":
                                                                 !preview,
                                                         }
                                                     )}
@@ -488,41 +490,27 @@ const CompanyCreateUserPage = () => {
                                         <div className="space-y-1.5 col-span-3">
                                             <Label>Color Profile</Label>
                                             <RadioGroup.Root
-                                                onValueChange={(value) =>
+                                                value={theme}
+                                                onValueChange={(value) => {
                                                     form.setFieldValue(
                                                         field.name,
                                                         value
-                                                    )
-                                                }
+                                                    );
+                                                    handleThemeChange(value);
+                                                }}
                                                 className="relative flex gap-3 items-center"
                                             >
                                                 <RadioGroup.Item
-                                                    value="black"
-                                                    className="aspect-square size-9 rounded-full ring-2 ring-transparent ring-offset-2 bg-black data-[state=checked]:ring-black"
-                                                />
-                                                <RadioGroup.Item
-                                                    value="orange"
-                                                    className="aspect-square size-9 rounded-full ring-2 ring-transparent ring-offset-2 bg-orange-500 data-[state=checked]:ring-orange-500"
-                                                />
-                                                <RadioGroup.Item
-                                                    value="blue"
+                                                    value="ocean"
                                                     className="aspect-square size-9 rounded-full ring-2 ring-transparent ring-offset-2 bg-blue-500 data-[state=checked]:ring-blue-500"
                                                 />
                                                 <RadioGroup.Item
-                                                    value="emerald"
-                                                    className="aspect-square size-9 rounded-full ring-2 ring-transparent ring-offset-2 bg-emerald-500 data-[state=checked]:ring-emerald-500"
+                                                    value="evergreen"
+                                                    className="aspect-square size-9 rounded-full ring-2 ring-transparent ring-offset-2 bg-green-500 data-[state=checked]:ring-green-500"
                                                 />
                                                 <RadioGroup.Item
-                                                    value="cyan"
-                                                    className="aspect-square size-9 rounded-full ring-2 ring-transparent ring-offset-2 bg-cyan-500 data-[state=checked]:ring-cyan-500"
-                                                />
-                                                <RadioGroup.Item
-                                                    value="yellow"
-                                                    className="aspect-square size-9 rounded-full ring-2 ring-transparent ring-offset-2 bg-yellow-500 data-[state=checked]:ring-yellow-500"
-                                                />
-                                                <RadioGroup.Item
-                                                    value="violet"
-                                                    className="aspect-square size-9 rounded-full ring-2 ring-transparent ring-offset-2 bg-violet-500 data-[state=checked]:ring-violet-500"
+                                                    value="candy"
+                                                    className="aspect-square size-9 rounded-full ring-2 ring-transparent ring-offset-2 bg-rose-500 data-[state=checked]:ring-rose-500"
                                                 />
                                             </RadioGroup.Root>
                                             <ErrorMessage

@@ -36,7 +36,7 @@ const MenuCollapsible = ({ children, icon, text, basePath }) => {
                     "w-full h-11 flex justify-between items-center py-2 px-3 group overflow-hidden focus:outline-none text-lg rounded-lg transition-colors",
                     {
                         "bg-white text-slate-800 shadow-sm": activePath,
-                        "text-slate-50 hover:bg-blue-600": !activePath,
+                        "text-slate-50 hover:bg-primary-600": !activePath,
                     }
                 )}
             >
@@ -63,7 +63,7 @@ const MenuCollapsible = ({ children, icon, text, basePath }) => {
                 style={{ maxHeight: height }}
                 className="collapsible-content overflow-hidden transition-all duration-300"
             >
-                <div className="ml-[1.6rem] pr-0.5 border-l border-blue-400">
+                <div className="ml-[1.6rem] pr-0.5 border-l border-primary-400">
                     {children}
                 </div>
             </div>

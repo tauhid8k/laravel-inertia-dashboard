@@ -56,7 +56,7 @@ export const DropdownItem = ({
         <MenuItem
             as={as}
             className={cn(
-                "w-full flex items-center gap-x-1.5 py-2 px-3 rounded-md hover:bg-blue-600 focus:outline-none font-medium hover:text-white",
+                "w-full flex items-center gap-x-1.5 py-2 px-3 rounded-md hover:bg-primary-500 focus:outline-none hover:text-white",
                 className
             )}
             {...props}

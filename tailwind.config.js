@@ -1,3 +1,5 @@
+const multiThemePlugin = require("./themes/multiTheme");
+
 /** @type {import('tailwindcss').Config} */
 export default {
     content: ["./resources/**/*.blade.php", "./resources/**/*.jsx"],
@@ -26,5 +28,5 @@ export default {
             },
         },
     },
-    plugins: [require("tailwindcss-animate")],
+    plugins: [multiThemePlugin, require("tailwindcss-animate")],
 };
