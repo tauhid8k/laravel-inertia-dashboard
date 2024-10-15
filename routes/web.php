@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Company\CompanyUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,12 +37,21 @@ Route::prefix('dashboard')->group(function () {
 
     // Company
     Route::get('/company/users', [CompanyUserController::class, 'index'])->name('company.users');
-    Route::get('/company/users/create', fn() => inertia('Dashboard/Company/Users/Create'))->name('company.users.create');
+    Route::post('/company/users', [CompanyUserController::class, 'store'])->name('company.users.store');
+    Route::get('/company/users/create', [CompanyUserController::class, 'create'])->name('company.users.create');
     Route::get('/company/logs', fn() => inertia('Dashboard/Company/Logs'))->name('company.logs');
 
     // Comms
     Route::get('/comms/message-center', fn() => inertia('Dashboard/Comms/MessageCenter'))->name('comms.messageCenter');
     Route::get('/comms/calender', fn() => inertia('Dashboard/Comms/Calender'))->name('comms.calender');
+
+    // Roles and Permissions
+    Route::get('/role-permissions/create', [RolePermissionController::class, 'create'])->name('rolePermissions.create');
+    Route::post('/role-permissions', [RolePermissionController::class, 'store'])->name('rolePermissions.store');
+    Route::get('/role-permissions', [RolePermissionController::class, 'index'])->name('rolePermissions.index');
+    Route::get('/role-permissions/{role}/permissions', [RolePermissionController::class, 'show'])->name('rolePermissions.show');
+    Route::put('/role-permissions/{role}/permissions', [RolePermissionController::class, 'update'])->name('rolePermissions.update');
+    Route::delete('/role-permissions/{role}', [RolePermissionController::class, 'destroy'])->name('rolePermissions.destroy');
 
     // Settings
     Route::get('/settings', fn() => inertia('Dashboard/Settings/Index'))->name('dashboard.settings');

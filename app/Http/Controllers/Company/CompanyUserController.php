@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class CompanyUserController extends Controller
 {
@@ -14,7 +15,8 @@ class CompanyUserController extends Controller
      */
     public function index()
     {
-        return inertia('Dashboard/Company/Users/Index');
+        $users = User::with('roles')->latest()->paginate();
+        return inertia('Dashboard/Company/Users/Index', ['users' => $users]);
     }
 
     /**
@@ -22,7 +24,8 @@ class CompanyUserController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::whereNot('name', 'admin')->latest()->get();
+        return inertia('Dashboard/Company/Users/Create', ['roles' => $roles]);
     }
 
     /**

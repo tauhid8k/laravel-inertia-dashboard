@@ -28,5 +28,9 @@ export default {
             },
         },
     },
-    plugins: [multiThemePlugin, require("tailwindcss-animate")],
+    plugins: [
+        require("@tailwindcss/forms"),
+        multiThemePlugin,
+        require("tailwindcss-animate"),
+    ],
 };

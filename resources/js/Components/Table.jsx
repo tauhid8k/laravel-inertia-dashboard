@@ -70,14 +70,14 @@ export function DataTable({ columns, data }) {
                     )}
                 </tbody>
             </table>
-            {data?.links && (
-                <div className="py-4 flex items-center flex-wrap justify-center gap-2 border-t border-slate-200">
+            {table.getRowModel().rows?.length > 0 && data?.links && (
+                <div className="py-4 flex items-center flex-wrap justify-center gap-2 border-slate-200">
                     {data.links.map((link) =>
                         link.url ? (
                             <Link
-                                className={`h-10 min-w-10 flex items-center justify-center rounded p-3 font-bold ${
+                                className={`h-10 min-w-10 flex items-center justify-center rounded p-3 ${
                                     link.active
-                                        ? "bg-blue-500 text-white"
+                                        ? "bg-primary-500 text-white"
                                         : "hover:bg-slate-200 text-slate-700"
                                 }`}
                                 key={link.label}
@@ -87,7 +87,7 @@ export function DataTable({ columns, data }) {
                             />
                         ) : (
                             <span
-                                className="h-10 p-3 flex items-center justify-center rounded font-bold text-slate-500"
+                                className="h-10 p-3 flex items-center justify-center rounded text-slate-400"
                                 key={link.label}
                                 dangerouslySetInnerHTML={{ __html: link.label }}
                             />

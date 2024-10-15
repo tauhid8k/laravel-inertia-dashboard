@@ -4,11 +4,14 @@ import { Plus } from "lucide-react";
 import { Link } from "@inertiajs/react";
 import { cn } from "@/lib/utils";
 
-const CompanyUsersPage = () => {
+const CompanyUsersPage = ({ users }) => {
     const columns = [
         {
             header: "Name",
-            accessorKey: "name",
+            cell: ({ row }) => {
+                const { first_name, last_name } = row.original;
+                return <span>{`${first_name} ${last_name}`}</span>;
+            },
         },
         {
             header: "Email",
@@ -21,6 +24,14 @@ const CompanyUsersPage = () => {
         {
             header: "Role",
             accessorKey: "role",
+            cell: ({ row }) => {
+                const { role } = row.original;
+                return (
+                    <span className="text-white py-1 px-3 rounded-full bg-slate-400 font-medium capitalize">
+                        {role}
+                    </span>
+                );
+            },
         },
         {
             header: "Joining Date",
@@ -33,7 +44,8 @@ const CompanyUsersPage = () => {
 
     return (
         <div className="rounded-lg bg-white border overflow-hidden">
-            <div className="flex items-center justify-end p-6">
+            <div className="flex items-center justify-between p-6">
+                <h2 className="text-2xl">Users</h2>
                 <Link
                     href={route("company.users.create")}
                     className={cn(buttonVariants())}
@@ -42,7 +54,7 @@ const CompanyUsersPage = () => {
                     <span>Create New</span>
                 </Link>
             </div>
-            <DataTable columns={columns} />
+            <DataTable columns={columns} data={users} />
         </div>
     );
 };

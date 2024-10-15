@@ -6,6 +6,7 @@ import {
     Earth,
     LayoutGrid,
     Settings,
+    Shield,
     UsersRound,
 } from "lucide-react";
 import { useRef, useEffect } from "react";
@@ -215,6 +216,12 @@ const SidebarMenu = () => {
                     active: route().current("comms.calender"),
                 },
             ],
+        },
+        {
+            text: "Roles and Permissions",
+            href: route("rolePermissions.index"),
+            icon: <Shield className="icon" />,
+            active: route().current("rolePermissions.index"),
         },
         {
             text: "Settings",

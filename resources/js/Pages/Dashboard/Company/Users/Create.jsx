@@ -1,5 +1,6 @@
 import { FastField, Formik, ErrorMessage, Field } from "formik";
 import * as yup from "yup";
+import * as RadioGroup from "@radix-ui/react-radio-group";
 import { Input } from "@/Components/Form/Input";
 import { Button } from "@/Components/Button";
 import {
@@ -12,13 +13,13 @@ import {
 import { Label } from "@/Components/Form/Label";
 import { useState } from "react";
 import { Pencil, Trash, UserRound } from "lucide-react";
-import * as RadioGroup from "@radix-ui/react-radio-group";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/Providers/ThemeProvider";
+import { toast } from "sonner";
 import { router } from "@inertiajs/react";
 
-const CompanyCreateUserPage = () => {
-    const [preview, setPreview] = useState(null);
+const CompanyCreateUserPage = ({ roles }) => {
+    const [preview, setPreview] = useState("");
     const { theme, handleThemeChange } = useTheme();
 
     return (
@@ -30,7 +31,6 @@ const CompanyCreateUserPage = () => {
                 <div className="p-6">
                     <Formik
                         initialValues={{
-                            profile_img: null,
                             role: "",
                             first_name: "",
                             last_name: "",
@@ -52,7 +52,6 @@ const CompanyCreateUserPage = () => {
                             color_profile: "ocean",
                         }}
                         validationSchema={yup.object({
-                            profile_img: yup.mixed().nullable().optional(),
                             role: yup.string().required("Role is required"),
                             first_name: yup
                                 .string()
@@ -81,12 +80,6 @@ const CompanyCreateUserPage = () => {
                                 .string()
                                 .email("Email is invalid")
                                 .optional(),
-                            phone: yup
-                                .string()
-                                .required("Phone number is required"),
-                            job_title: yup
-                                .string()
-                                .required("Job title is required"),
                             address_line: yup
                                 .string()
                                 .required("Address line 1 is required"),
@@ -112,12 +105,12 @@ const CompanyCreateUserPage = () => {
                                 .required("Preferred color is required"),
                         })}
                         onSubmit={(values, { setSubmitting }) => {
-                            return new Promise((resolve) => {
-                                setTimeout(() => {
-                                    console.log(values);
-                                    resolve();
+                            router.post(route("company.users.store"), values, {
+                                onError: () => setSubmitting(false),
+                                onSuccess: () => {
+                                    toast.success("User added");
                                     setSubmitting(false);
-                                }, 3000);
+                                },
                             });
                         }}
                     >
@@ -131,7 +124,7 @@ const CompanyCreateUserPage = () => {
                                         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
                                         disabled={isSubmitting}
                                     >
-                                        <Field name="profile_img">
+                                        {/* <Field name="profile_img">
                                             {({ field, form }) => (
                                                 <div className="space-y-1.5 col-span-3">
                                                     <div className="flex flex-col items-center mx-auto gap-3 relative w-fit select-none py-4">
@@ -183,10 +176,10 @@ const CompanyCreateUserPage = () => {
                                                                 if (preview) {
                                                                     form.setFieldValue(
                                                                         "profile_img",
-                                                                        null
+                                                                        ""
                                                                     );
                                                                     setPreview(
-                                                                        null
+                                                                        ""
                                                                     );
                                                                 }
                                                             }}
@@ -214,7 +207,7 @@ const CompanyCreateUserPage = () => {
                                                     />
                                                 </div>
                                             )}
-                                        </Field>
+                                        </Field> */}
                                         <FastField name="role">
                                             {({ field, form }) => (
                                                 <div className="space-y-1.5">
@@ -233,15 +226,25 @@ const CompanyCreateUserPage = () => {
                                                             <SelectValue placeholder="Select Role" />
                                                         </SelectTrigger>
                                                         <SelectContent>
-                                                            <SelectItem value="admin">
-                                                                Admin
-                                                            </SelectItem>
-                                                            <SelectItem value="user">
-                                                                User
-                                                            </SelectItem>
-                                                            <SelectItem value="staff">
-                                                                Staff
-                                                            </SelectItem>
+                                                            {roles?.map(
+                                                                (
+                                                                    role,
+                                                                    index
+                                                                ) => (
+                                                                    <SelectItem
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                        value={
+                                                                            role.name
+                                                                        }
+                                                                    >
+                                                                        {
+                                                                            role.name
+                                                                        }
+                                                                    </SelectItem>
+                                                                )
+                                                            )}
                                                         </SelectContent>
                                                     </Select>
                                                     <ErrorMessage
