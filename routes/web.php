@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ActivityLogsController;
 use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Company\CompanyUserController;
 use Illuminate\Support\Facades\Route;
@@ -39,7 +40,7 @@ Route::prefix('dashboard')->group(function () {
     Route::get('/company/users', [CompanyUserController::class, 'index'])->name('company.users');
     Route::post('/company/users', [CompanyUserController::class, 'store'])->name('company.users.store');
     Route::get('/company/users/create', [CompanyUserController::class, 'create'])->name('company.users.create');
-    Route::get('/company/logs', fn() => inertia('Dashboard/Company/Logs'))->name('company.logs');
+    Route::get('/company/logs', [ActivityLogsController::class, 'index'])->name('company.logs');
 
     // Comms
     Route::get('/comms/message-center', fn() => inertia('Dashboard/Comms/MessageCenter'))->name('comms.messageCenter');
