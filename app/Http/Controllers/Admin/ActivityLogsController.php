@@ -11,7 +11,7 @@ class ActivityLogsController extends Controller
     // Get all activity logs
     public function index()
     {
-        $logs = Activity::latest()->paginate();
+        $logs = Activity::with(['causer:id,first_name,last_name'])->latest()->paginate();
         return inertia('Dashboard/Company/Logs', ['logs' => $logs]);
     }
 }
