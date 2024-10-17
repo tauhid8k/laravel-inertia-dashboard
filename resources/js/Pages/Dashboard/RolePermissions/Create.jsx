@@ -51,7 +51,6 @@ const CreateRolePermissionsPage = ({ permissions }) => {
                                 type="text"
                                 id="name"
                                 name="name"
-                                className="input-contrast"
                             />
                             {errors.name && (
                                 <p className="text-red-500 text-sm">

@@ -7,12 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable,  HasRoles, LogsActivity;
+    use HasFactory, Notifiable,  HasRoles;
 
     /** Append role and permissions to auth user */
     protected $appends = ['role', 'permissions'];
@@ -59,12 +58,5 @@ class User extends Authenticatable
     public function getPermissionsAttribute()
     {
         return $this->getPermissionsViaRoles()->pluck('name');
-    }
-
-
-    // Activity Log
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()->logOnlyDirty();
     }
 }

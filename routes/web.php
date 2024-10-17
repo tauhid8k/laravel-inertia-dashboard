@@ -2,14 +2,23 @@
 
 use App\Http\Controllers\Admin\ActivityLogsController;
 use App\Http\Controllers\Admin\RolePermissionController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Company\CompanyUserController;
 use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', fn() => inertia('Home'))->name('home');
 
-Route::prefix('dashboard')->group(function () {
+// Public Routes
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'view'])->name('login.view');
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
+});
+
+// Private Routes
+Route::prefix('dashboard')->middleware(['auth'])->group(function () {
     Route::get('/', fn() => inertia('Dashboard/Overview'))->name('dashboard');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     // Billing
     Route::get('/billing', fn() => inertia('Dashboard/Billing/Index'))->name('billing.index');

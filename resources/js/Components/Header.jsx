@@ -1,4 +1,4 @@
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import {
     ArrowLeftFromLine,
     ArrowRightFromLine,
@@ -17,6 +17,8 @@ import { Fragment } from "react";
 import { useSidebar } from "@/Providers/SidebarProvider";
 
 const Header = () => {
+    const { auth } = usePage().props;
+
     const { isExpanded, setIsExpanded, isCollapsed, setIsCollapsed, isMobile } =
         useSidebar();
 
@@ -62,7 +64,7 @@ const Header = () => {
                                 alt="profile image"
                             />
                             <span className="font-medium truncate max-w-[7.5rem]">
-                                Md. Tauhid
+                                {auth.user.email}
                             </span>
                             <svg
                                 className="data-open:rotate-180 size-4"
@@ -85,7 +87,11 @@ const Header = () => {
                                 <span>Profile</span>
                             </DropdownItem>
                             <DropdownItem as={Fragment}>
-                                <Link as="button" href="#" method="post">
+                                <Link
+                                    as="button"
+                                    href={route("logout")}
+                                    method="post"
+                                >
                                     <LogOut className="icon" />
                                     <span>Logout</span>
                                 </Link>
