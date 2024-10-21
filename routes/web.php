@@ -50,6 +50,7 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
     Route::post('/company/users', [CompanyUserController::class, 'store'])->name('company.users.store');
     Route::get('/company/users/create', [CompanyUserController::class, 'create'])->name('company.users.create');
     Route::get('/company/logs', [ActivityLogsController::class, 'index'])->name('company.logs');
+    Route::post('/company/logs', [ActivityLogsController::class, 'store'])->name('company.logs.store');
 
     // Comms
     Route::get('/comms/message-center', fn() => inertia('Dashboard/Comms/MessageCenter'))->name('comms.messageCenter');

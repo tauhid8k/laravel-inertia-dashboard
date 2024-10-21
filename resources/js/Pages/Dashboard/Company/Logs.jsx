@@ -1,10 +1,12 @@
 import { DataTable } from "@/Components/ExpandableTable";
 import { Eye } from "lucide-react";
 import { Button } from "@/Components/Button";
+import { useUserActivity } from "@/Providers/UserActivityProvider";
 import dayjs from "dayjs";
 
 const CompanyLogsPage = ({ logs }) => {
-    console.log(logs);
+    const { activeStatus, activeTime } = useUserActivity();
+    console.log(activeStatus, activeTime);
 
     const columns = [
         {
@@ -39,12 +41,19 @@ const CompanyLogsPage = ({ logs }) => {
                     parsedProperties = JSON.parse(properties);
                 }
 
-                const fullUrl = parsedProperties.url || "";
-                const url = new URL(fullUrl);
+                const url = parsedProperties.url;
+                const formattedUrl = url
+                    .split("?")[0]
+                    .slice(1)
+                    .split("/")
+                    .join(" -> ");
 
                 return (
-                    <span className="py-1 px-2 border capitalize border-slate-200 text-sm rounded-md bg-slate-100">
-                        {url.pathname.slice(1).split("/").join(" -> ")}
+                    <span
+                        title={formattedUrl}
+                        className="py-1 px-2 border capitalize border-slate-200 text-sm rounded-md bg-slate-100"
+                    >
+                        {formattedUrl}
                     </span>
                 );
             },
@@ -54,7 +63,7 @@ const CompanyLogsPage = ({ logs }) => {
             accessorKey: "event",
         },
         {
-            header: "Last Active",
+            header: "Active Time",
             cell: ({ row }) => {
                 const { properties } = row.original;
 
@@ -64,7 +73,21 @@ const CompanyLogsPage = ({ logs }) => {
                     parsedProperties = JSON.parse(properties);
                 }
 
-                return <span>{parsedProperties.last_active_at}</span>;
+                const activeTime = parsedProperties.activeTime;
+
+                // Helper function to format seconds into "X min Y sec"
+                const formatActiveTime = (seconds) => {
+                    const minutes = Math.floor(seconds / 60);
+                    const remainingSeconds = seconds % 60;
+
+                    if (minutes > 0) {
+                        return `${minutes} min ${remainingSeconds} sec`;
+                    } else {
+                        return `${remainingSeconds} sec`;
+                    }
+                };
+
+                return <span>{formatActiveTime(activeTime)}</span>;
             },
         },
         {

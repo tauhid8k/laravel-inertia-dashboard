@@ -52,11 +52,7 @@ export function DataTable({ columns, data }) {
                     {table.getRowModel().rows?.length ? (
                         table.getRowModel().rows.map((row) => (
                             <React.Fragment key={row.key}>
-                                <tr
-                                    data-state={
-                                        row.getIsSelected() && "selected"
-                                    }
-                                >
+                                <tr>
                                     {row.getVisibleCells().map((cell) => (
                                         <td
                                             className="px-6 py-4 align-middle [&:has([role=checkbox])]:pr-0 max-w-[230px] truncate text-slate-600 border-b border-slate-200"
