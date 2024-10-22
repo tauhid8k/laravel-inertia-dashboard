@@ -51,6 +51,7 @@ const CompanyCreateUserPage = ({ roles }) => {
                             skype: "",
                             color_profile: "ocean",
                         }}
+                        validateOnBlur={false}
                         validationSchema={yup.object({
                             role: yup.string().required("Role is required"),
                             first_name: yup

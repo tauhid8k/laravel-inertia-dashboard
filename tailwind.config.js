@@ -2,7 +2,10 @@ const multiThemePlugin = require("./themes/multiTheme");
 
 /** @type {import('tailwindcss').Config} */
 export default {
-    content: ["./resources/**/*.blade.php", "./resources/**/*.jsx"],
+    content: [
+        "./resources/**/*.blade.php",
+        "./resources/js/**/*.{js,jsx,ts,tsx}",
+    ],
     theme: {
         container: {
             center: true,

@@ -6,7 +6,6 @@ import dayjs from "dayjs";
 
 const CompanyLogsPage = ({ logs }) => {
     const { activeStatus, activeTime } = useUserActivity();
-    console.log(activeStatus, activeTime);
 
     const columns = [
         {
@@ -87,7 +86,13 @@ const CompanyLogsPage = ({ logs }) => {
                     }
                 };
 
-                return <span>{formatActiveTime(activeTime)}</span>;
+                return (
+                    <span>
+                        {activeTime === 0
+                            ? "Just now"
+                            : formatActiveTime(activeTime)}
+                    </span>
+                );
             },
         },
         {

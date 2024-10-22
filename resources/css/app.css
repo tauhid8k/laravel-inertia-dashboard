@@ -14,34 +14,3 @@
 .dropdown-icon {
     @apply size-[18px];
 }
-
-/* Buttons */
-.btn {
-    @apply h-10 px-3.5 flex items-center justify-center gap-x-1 text-center font-medium rounded-md text-lg border border-transparent text-white disabled:opacity-70 disabled:pointer-events-none transition-colors;
-}
-.btn-primary {
-    @apply bg-blue-600 hover:bg-blue-700;
-}
-.btn-secondary {
-    @apply bg-zinc-200 hover:bg-zinc-300;
-}
-.btn-danger {
-    @apply bg-red-600 hover:bg-red-700;
-}
-.btn-muted {
-    @apply bg-zinc-200 hover:bg-zinc-300;
-}
-.btn-icon {
-    @apply size-10 flex items-center justify-center rounded-md text-zinc-600 hover:bg-zinc-100;
-}
-
-/* Card */
-.card {
-    @apply p-5 rounded-lg bg-white;
-}
-.card-contrast {
-    @apply rounded-md bg-white border border-zinc-200;
-}
-.card-header {
-    @apply h-14 flex items-center capitalize px-6 font-medium whitespace-nowrap tracking-wide text-lg text-zinc-700 bg-zinc-200/50 border-b border-zinc-200;
-}
