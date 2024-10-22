@@ -34,7 +34,8 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
     // Sales
     Route::get('/sales', fn() => inertia('Dashboard/Sales/Index'))->name('sales.index');
     Route::get('/sales/leads', fn() => inertia('Dashboard/Sales/Leads/Index'))->name('sales.leads');
-    Route::get('/sales/intakes', fn() => inertia('Dashboard/Sales/Intakes'))->name('sales.intakes');
+    Route::get('/sales/intakes', fn() => inertia('Dashboard/Sales/Intakes/Index'))->name('sales.intakes');
+    Route::get('/sales/intakes/create', fn() => inertia('Dashboard/Sales/Intakes/Create'))->name('sales.intakes.create');
     Route::get('/sales/resources', fn() => inertia('Dashboard/Sales/Resources'))->name('sales.resources');
 
     // Clients

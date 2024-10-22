@@ -21,7 +21,7 @@ import { Button } from "@/Components/Button";
 import { Label } from "@/Components/Form/Label";
 import { toast } from "sonner";
 import { router } from "@inertiajs/react";
-import { TextArea } from "../../../../Components/Form/TextArea";
+import { TextArea } from "@/Components/Form/TextArea";
 
 const SalesLeadPage = () => {
     return (
