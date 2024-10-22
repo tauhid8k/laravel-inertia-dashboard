@@ -715,7 +715,7 @@ const StepTow = ({ data, next, prev }) => {
 };
 
 // Step Finish
-const StepFinish = ({ data, prev }) => {
+const StepFinish = ({ data, next, prev }) => {
     return (
         <div className="grid place-items-center gap-8">
             <div className="flex items-center gap-3 min-h-72">
