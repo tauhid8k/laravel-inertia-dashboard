@@ -20,10 +20,17 @@ import { Label } from "@/Components/Form/Label";
 import { toast } from "sonner";
 import { router } from "@inertiajs/react";
 import { TextArea } from "@/Components/Form/TextArea";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+
+// Helper method to calculate progress percentage
+const calculateStepProgress = (data, fields) => {
+    const filledFields = fields.filter((field) => data[field] !== "");
+    return (filledFields.length / fields.length) * 100;
+};
 
 const IntakeCreatePage = () => {
     const [currentStep, setCurrentStep] = useState(0);
+    const [progress, setProgress] = useState([0, 0, 0]);
     const [data, setData] = useState({
         lead: "",
         name: "",
@@ -65,11 +72,26 @@ const IntakeCreatePage = () => {
         setCurrentStep((prev) => prev - 1);
     };
 
+    // Use useCallback to memoize the function and prevent unnecessary re-renders
+    const setStepProgress = useCallback((index, value) => {
+        setProgress((prevProgress) => {
+            const newProgress = [...prevProgress];
+            newProgress[index] = isNaN(value) ? 0 : value;
+            return newProgress;
+        });
+    }, []);
+
     // All Steps
     const steps = [
         {
             title: "Lead",
-            component: <StepOne next={handleNextStep} data={data} />,
+            component: (
+                <StepOne
+                    next={handleNextStep}
+                    data={data}
+                    setProgress={(progress) => setStepProgress(0, progress)}
+                />
+            ),
         },
         {
             title: "Billing",
@@ -78,6 +100,7 @@ const IntakeCreatePage = () => {
                     next={handleNextStep}
                     prev={handlePrevStep}
                     data={data}
+                    setProgress={(progress) => setStepProgress(1, progress)}
                 />
             ),
         },
@@ -88,6 +111,7 @@ const IntakeCreatePage = () => {
                     next={handleNextStep}
                     prev={handlePrevStep}
                     data={data}
+                    setProgress={(progress) => setStepProgress(2, progress)}
                 />
             ),
         },
@@ -103,34 +127,61 @@ const IntakeCreatePage = () => {
                 <div className="p-6">
                     {/* Timeline */}
                     <div className="max-w-xl flex items-center justify-between my-6 mx-auto">
-                        {steps.map((step, index) => (
-                            <div
-                                key={index}
-                                className={`flex-1 ${
-                                    index < steps.length - 1 ? "pr-4" : ""
-                                }`}
-                            >
-                                <div className="flex items-center">
-                                    {/* Step Circle & Title */}
-                                    <div className="flex items-center gap-3">
+                        {steps.map((step, index) => {
+                            const isFinalStep = index === steps.length - 1;
+                            const isCurrentStep = index === currentStep;
+                            const progressValue = isFinalStep
+                                ? isCurrentStep
+                                    ? 100
+                                    : 0
+                                : progress[index] || 0;
+                            const progressAngle = (progressValue / 100) * 360;
+
+                            return (
+                                <div
+                                    key={index}
+                                    className={`flex-1 flex flex-col gap-2 ${
+                                        index < steps.length - 1 ? "pr-4" : ""
+                                    }`}
+                                >
+                                    <div className="flex items-center">
+                                        {/* Step Circle & Title */}
                                         <div
-                                            className={`flex items-center justify-center size-12 rounded-full border-2 font-medium ${
-                                                currentStep >= index
-                                                    ? "border-primary-500 bg-primary-500 text-white"
-                                                    : "border-slate-300 bg-white text-slate-500"
-                                            }`}
+                                            className="relative size-20 flex items-center justify-center rounded-full after:absolute after:content-[''] after:size-[70px] after:rounded-full after:bg-white"
+                                            style={{
+                                                background: `conic-gradient(${
+                                                    isFinalStep &&
+                                                    !isCurrentStep
+                                                        ? "#e5e7eb"
+                                                        : "#22c55e"
+                                                } ${progressAngle}deg, #e5e7eb 0deg)`,
+                                            }}
                                         >
-                                            {index + 1}
+                                            {isFinalStep ? (
+                                                isCurrentStep ? (
+                                                    <CheckCheck className="z-10 text-green-500 size-8" />
+                                                ) : (
+                                                    <CheckCheck className="z-10 text-slate-400 size-8" />
+                                                )
+                                            ) : (
+                                                <span className="z-10 text-slate-500 text-xl font-medium">
+                                                    {`${Math.round(
+                                                        progressValue
+                                                    )}%`}
+                                                </span>
+                                            )}
                                         </div>
-                                        <p>{step.title}</p>
+                                        {/* Line between steps */}
+                                        {index < steps.length - 1 && (
+                                            <div className="flex-grow border-t-2 border-slate-300 ml-4"></div>
+                                        )}
                                     </div>
-                                    {/* Line between steps */}
-                                    {index < steps.length - 1 && (
-                                        <div className="flex-grow border-t-2 border-slate-300 ml-4"></div>
-                                    )}
+                                    <p className="w-20 text-center">
+                                        {step.title}
+                                    </p>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
 
                     {/* Forms */}
@@ -142,7 +193,21 @@ const IntakeCreatePage = () => {
 };
 
 // Step 1
-const StepOne = ({ data, next }) => {
+const StepOne = ({ data, next, setProgress }) => {
+    const stepOneFields = [
+        "lead",
+        "name",
+        "company",
+        "website",
+        "email",
+        "phone",
+        "status",
+        "type",
+        "agent",
+        "plan",
+        "lead_note",
+    ];
+
     return (
         <Formik
             initialValues={data}
@@ -165,7 +230,15 @@ const StepOne = ({ data, next }) => {
                 setSubmitting(false);
             }}
         >
-            {({ handleSubmit, isSubmitting }) => {
+            {({ handleSubmit, isSubmitting, values }) => {
+                useEffect(() => {
+                    const progress = calculateStepProgress(
+                        values,
+                        stepOneFields
+                    );
+                    setProgress(progress);
+                }, [values]);
+
                 return (
                     <form onSubmit={handleSubmit} autoComplete="off">
                         <fieldset
@@ -440,7 +513,21 @@ const StepOne = ({ data, next }) => {
 };
 
 // Step 2
-const StepTow = ({ data, next, prev }) => {
+const StepTow = ({ data, next, prev, setProgress }) => {
+    const stepTwoFields = [
+        "card_holder_name",
+        "street",
+        "street_two",
+        "city",
+        "state",
+        "postal",
+        "lead_profile_note",
+        "billing_note",
+        "final_proposal",
+        "pre_sale_email_history",
+        "cc_authorization",
+    ];
+
     return (
         <Formik
             initialValues={data}
@@ -476,6 +563,14 @@ const StepTow = ({ data, next, prev }) => {
             }}
         >
             {({ handleSubmit, isSubmitting, values }) => {
+                useEffect(() => {
+                    const progress = calculateStepProgress(
+                        values,
+                        stepTwoFields
+                    );
+                    setProgress(progress);
+                }, [values]);
+
                 return (
                     <form onSubmit={handleSubmit} autoComplete="off">
                         <fieldset
