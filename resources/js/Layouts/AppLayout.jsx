@@ -5,8 +5,19 @@ import BreadCrumbs from "@/Components/BreadCrumbs";
 import { ThemeProvider } from "@/Providers/ThemeProvider";
 import { Toaster } from "sonner";
 import { UserActivityProvider } from "@/Providers/UserActivityProvider";
+import { motion, AnimatePresence } from "framer-motion";
+import { usePage } from "@inertiajs/react";
 
 const AppLayout = ({ children }) => {
+    const { component } = usePage();
+
+    // Define animation variants for steps
+    const pageVariants = {
+        initial: { opacity: 0, y: 5 },
+        animate: { opacity: 1, y: 0 },
+        exit: { opacity: 0, y: 5 },
+    };
+
     return (
         <ThemeProvider>
             <UserActivityProvider>
@@ -27,7 +38,18 @@ const AppLayout = ({ children }) => {
                                         },
                                     }}
                                 />
-                                {children}
+                                <AnimatePresence mode="wait">
+                                    <motion.div
+                                        key={component}
+                                        variants={pageVariants}
+                                        initial="initial"
+                                        animate="animate"
+                                        exit="exit"
+                                        transition={{ duration: 0.1 }}
+                                    >
+                                        {children}
+                                    </motion.div>
+                                </AnimatePresence>
                             </main>
                         </div>
                     </div>

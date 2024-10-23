@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import { router } from "@inertiajs/react";
 import { TextArea } from "@/Components/Form/TextArea";
 import { useCallback, useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 // Helper method to calculate progress percentage
 const calculateStepProgress = (data, fields) => {
@@ -80,6 +81,17 @@ const IntakeCreatePage = () => {
             return newProgress;
         });
     }, []);
+
+    // Define animation variants for steps
+    const stepVariants = {
+        initial: { opacity: 0, y: 5 },
+        animate: { opacity: 1, y: 0 },
+        exit: { opacity: 0, y: 5 },
+        transition: {
+            duration: 0.3,
+            ease: "easeInOut",
+        },
+    };
 
     // All Steps
     const steps = [
@@ -185,7 +197,17 @@ const IntakeCreatePage = () => {
                     </div>
 
                     {/* Forms */}
-                    <div>{steps[currentStep].component}</div>
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={currentStep}
+                            variants={stepVariants}
+                            initial="initial"
+                            animate="animate"
+                            exit="exit"
+                        >
+                            {steps[currentStep].component}
+                        </motion.div>
+                    </AnimatePresence>
                 </div>
             </div>
         </>
